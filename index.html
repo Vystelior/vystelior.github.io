@@ -3,532 +3,897 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🎵 Radio 7 - Broadcast Control</title>
+    <title>Radio 7 | Sounds</title>
+    <!-- Using a CDN for Font Awesome icons -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
+        :root {
+            /* Branding Colors */
+            --bbc-black: #0f1110;
+            --bbc-dark-gray: #1a1d1b;
+            --bbc-light-gray: #b8b8b8;
+            
+            /* Main Brand Color: Lime/Forest Green Mix */
+            --brand-color: #32cd32; 
+            --brand-glow: rgba(50, 205, 50, 0.4);
+            --brand-dark: #006400;
+            
+            --text-white: #ffffff;
+            --card-bg: #2a2a2a;
+        }
+
+        /* Using a generic sans-serif font for compatibility */
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800;900&display=swap');
+
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            font-family: 'Inter', 'Helvetica Neue', Helvetica, Arial, sans-serif;
         }
 
         body {
-            font-family: 'Segoe UI', system-ui, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
+            background-color: var(--bbc-black);
+            color: var(--text-white);
             min-height: 100vh;
-            padding: 20px;
-        }
-
-        .container {
-            max-width: 800px;
-            margin: 0 auto;
-        }
-
-        .header {
-            text-align: center;
-            margin-bottom: 2rem;
-        }
-
-        .header h1 {
-            font-size: 2.5rem;
-            margin-bottom: 0.5rem;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
-        }
-
-        .header p {
-            font-size: 1.1rem;
-            opacity: 0.9;
-        }
-
-        .control-panel {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            border-radius: 20px;
-            padding: 2rem;
-            margin-bottom: 2rem;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-        }
-
-        .status-indicators {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 1rem;
-            margin-bottom: 2rem;
-        }
-
-        .status-card {
-            background: rgba(0, 0, 0, 0.3);
-            padding: 1.5rem;
-            border-radius: 15px;
-            text-align: center;
-        }
-
-        .status-card h3 {
-            font-size: 0.9rem;
-            opacity: 0.8;
-            margin-bottom: 0.5rem;
-        }
-
-        .status-card .value {
-            font-size: 1.5rem;
-            font-weight: bold;
-        }
-
-        .status-card.online {
-            border-left: 4px solid #10b981;
-        }
-
-        .status-card.offline {
-            border-left: 4px solid #ef4444;
-        }
-
-        .stream-url-section {
-            background: rgba(0, 0, 0, 0.3);
-            padding: 1.5rem;
-            border-radius: 15px;
-            margin-bottom: 2rem;
-        }
-
-        .url-box {
-            background: rgba(255, 255, 255, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 10px;
-            padding: 1rem;
-            margin: 1rem 0;
-            position: relative;
-        }
-
-        .url-box code {
-            font-family: 'Courier New', monospace;
-            word-break: break-all;
-            display: block;
-        }
-
-        .copy-btn {
-            position: absolute;
-            top: 0.5rem;
-            right: 0.5rem;
-            background: rgba(255, 255, 255, 0.2);
-            border: none;
-            color: white;
-            padding: 0.5rem 1rem;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 0.8rem;
-        }
-
-        .copy-btn:hover {
-            background: rgba(255, 255, 255, 0.3);
-        }
-
-        .embed-codes {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 1rem;
-            margin-top: 1rem;
-        }
-
-        .controls {
             display: flex;
-            gap: 1rem;
-            justify-content: center;
-            margin: 2rem 0;
+            flex-direction: column;
+            justify-content: space-between; /* Spacing for footer */
         }
 
-        .control-btn {
-            background: rgba(255, 255, 255, 0.2);
-            border: none;
-            border-radius: 10px;
+        /* --- Navigation --- */
+        nav {
+            background-color: #000000;
             padding: 1rem 2rem;
-            color: white;
-            font-size: 1rem;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            min-width: 140px;
+            border-bottom: 2px solid var(--brand-dark);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: sticky;
+            top: 0;
+            z-index: 100;
         }
 
-        .control-btn:hover {
-            background: rgba(255, 255, 255, 0.3);
-            transform: translateY(-2px);
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            letter-spacing: -1px;
         }
 
-        .control-btn.primary {
-            background: #10b981;
+        .logo-box {
+            background-color: var(--brand-color);
+            color: #000;
+            padding: 2px 10px;
+            font-weight: 900;
+            border-radius: 2px;
         }
 
-        .control-btn.primary:hover {
-            background: #0da271;
+        .nav-links {
+            display: flex;
+            gap: 2rem;
         }
 
-        .control-btn.danger {
-            background: #ef4444;
+        .nav-links a {
+            color: var(--text-white);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.95rem;
+            transition: color 0.3s;
+            text-transform: uppercase;
+            font-size: 0.85rem;
+            letter-spacing: 0.5px;
         }
 
-        .control-btn.danger:hover {
-            background: #dc2626;
+        .nav-links a:hover {
+            color: var(--brand-color);
         }
 
-        .listener-stats {
-            background: rgba(0, 0, 0, 0.3);
-            padding: 1.5rem;
-            border-radius: 15px;
-            margin-top: 2rem;
+        /* --- Hero / Player Section --- */
+        .hero-player {
+            background: radial-gradient(circle at 70% 30%, #1a4d1a 0%, #000000 70%);
+            padding: 3rem 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-grow: 1; /* Takes up remaining vertical space */
+            position: relative;
+            overflow: hidden;
+            min-height: 70vh;
         }
 
-        .stats-grid {
+        .player-card {
+            background: rgba(20, 30, 20, 0.85);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border: 1px solid #333;
+            border-top: 2px solid var(--brand-color);
+            border-radius: 4px;
+            padding: 2rem;
+            width: 100%;
+            max-width: 950px;
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 1rem;
-            margin-top: 1rem;
+            grid-template-columns: 320px 1fr;
+            gap: 2.5rem;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.6);
+            z-index: 10;
         }
 
-        .stat-item {
-            text-align: center;
-            padding: 1rem;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 10px;
+        .album-art {
+            width: 100%;
+            aspect-ratio: 1/1;
+            background-color: #111;
+            border-radius: 2px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.5);
         }
 
-        .stat-value {
-            font-size: 2rem;
+        .album-art img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .live-tag {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background-color: var(--brand-color);
+            color: black;
+            padding: 4px 8px;
+            font-size: 0.75rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            border-radius: 2px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            z-index: 2;
+        }
+
+        .live-indicator {
+            width: 8px;
+            height: 8px;
+            background-color: white;
+            border-radius: 50%;
+            animation: blink 1.5s infinite;
+        }
+
+        .player-info {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .show-header {
+            font-size: 0.9rem;
+            color: var(--brand-color);
+            text-transform: uppercase;
             font-weight: bold;
             margin-bottom: 0.5rem;
+            letter-spacing: 1px;
         }
 
-        .stat-label {
+        .show-title {
+            font-size: 2.2rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+            line-height: 1.1;
+        }
+
+        .presenter {
+            font-size: 1.1rem;
+            color: var(--bbc-light-gray);
+            margin-bottom: 2rem;
+            font-weight: 300;
+        }
+
+        .controls-area {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            margin-top: auto;
+        }
+
+        .play-btn {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            background-color: var(--brand-color);
+            border: none;
+            color: black;
+            font-size: 1.5rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+            box-shadow: 0 0 20px var(--brand-glow);
+        }
+
+        .play-btn:hover {
+            transform: scale(1.05);
+            background-color: #4CBB17;
+            box-shadow: 0 0 30px var(--brand-glow);
+        }
+
+        .volume-control {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--bbc-light-gray);
+        }
+        
+        input[type="range"] {
+            accent-color: var(--brand-color);
+            cursor: pointer;
+            height: 4px;
+        }
+
+        .visualizer {
+            display: flex;
+            align-items: flex-end;
+            gap: 4px;
+            height: 40px;
+            margin-left: auto;
+        }
+
+        .bar {
+            width: 6px;
+            background-color: var(--brand-color);
+            animation: sound 0.5s infinite ease-in-out;
+            animation-play-state: paused;
+            border-radius: 2px 2px 0 0;
+        }
+
+        .status-bar {
+            margin-top: 1.5rem;
             font-size: 0.9rem;
-            opacity: 0.8;
+            color: #888;
+            border-top: 1px solid #333;
+            padding-top: 1rem;
+            display: flex;
+            justify-content: space-between;
         }
 
-        .platform-links {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 1rem;
-            margin-top: 2rem;
-        }
-
-        .platform-card {
-            background: rgba(255, 255, 255, 0.1);
-            padding: 1.5rem;
-            border-radius: 15px;
+        /* --- Footer --- */
+        footer {
+            background-color: #000;
+            padding: 2rem;
             text-align: center;
-            transition: all 0.3s ease;
+            color: var(--bbc-light-gray);
+            font-size: 0.9rem;
+            border-top: 4px solid var(--brand-color);
         }
 
-        .platform-card:hover {
-            background: rgba(255, 255, 255, 0.15);
-            transform: translateY(-5px);
+        /* Animations */
+        @keyframes blink {
+            0% { opacity: 1; }
+            50% { opacity: 0.4; }
+            100% { opacity: 1; }
         }
 
-        .platform-icon {
-            font-size: 2rem;
-            margin-bottom: 1rem;
+        @keyframes sound {
+            0% { height: 5px; opacity: 0.5; }
+            50% { height: 35px; opacity: 1; }
+            100% { height: 5px; opacity: 0.5; }
         }
 
+        /* Responsive */
         @media (max-width: 768px) {
-            .embed-codes {
+            .player-card {
                 grid-template-columns: 1fr;
+                text-align: center;
+                padding: 1.5rem;
+                gap: 1.5rem;
             }
             
-            .controls {
+            .album-art {
+                max-width: 250px;
+                margin: 0 auto;
+.audio-player-container {
+    width: 350px;
+    padding: 20px;
+    border-radius: 10px;
+    background-color: #fff;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    font-family: Arial, sans-serif;
+    color: #333;
+}
+
+.album-art {
+    width: 100%;
+    height: 310px;
+    border-radius: 10px;
+    overflow: hidden;
+    margin-bottom: 20px;
+    background-color: #f0f0f0;
+}
+
+.album-art img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.track-info {
+    text-align: center;
+    margin-bottom: 25px;
+}
+
+#track-title {
+    font-size: 20px;
+    font-weight: bold;
+    margin: 0;
+    color: #222;
+}
+
+#track-artist {
+    font-size: 14px;
+    color: #777;
+    margin: 5px 0 0;
+}
+
+#timeline-container {
+    width: 100%;
+    height: 6px;
+    background-color: #e0e0e0;
+    border-radius: 3px;
+    cursor: pointer;
+    margin-bottom: 10px;
+}
+
+#timeline {
+    width: 0%;
+    height: 100%;
+    background-color: #6a11cb;
+    background-image: linear-gradient(to right, #6a11cb 0%, #2575fc 100%);
+    border-radius: 3px;
+    transition: width 0.1s linear;
+}
+
+.time-stamps {
+    display: flex;
+    justify-content: space-between;
+    font-size: 12px;
+    color: #888;
+    margin-bottom: 20px;
+}
+
+.controls {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.control-btn {
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
+    padding: 10px;
+    font-size: 18px;
+    color: #555;
+    transition: color 0.2s;
+}
+
+.control-btn:hover {
+    color: #000;
+}
+
+#play-pause-btn {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background-color: #6a11cb;
+    background-image: linear-gradient(to right, #6a11cb 0%, #2575fc 100%);
+    color: white;
+    font-size: 24px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+}
+
+#play-pause-btn:hover {
+    color: white;
+    opacity: 0.9;
+}
+            }
+
+            .controls-area {
+                justify-content: center;
+                flex-wrap: wrap;
+                margin-top: 1rem;
+            }
+
+            .visualizer {
+                display: none;
+            }
+
+            .nav-links {
+                display: none; 
+            }
+            
+            .status-bar {
                 flex-direction: column;
-                align-items: center;
+                gap: 5px;
             }
-            
-            .control-btn {
-                width: 100%;
-                max-width: 300px;
+
+            .hero-player {
+                padding: 2rem 1rem;
+            }
+
+            .show-title {
+                font-size: 1.8rem;
             }
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="header">
-            <h1>🎵 Radio 7</h1>
-            <p>Broadcast Control Panel - Stream URL Provider</p>
+
+    <!-- Navigation -->
+    <nav>
+        <div class="logo">
+            <span class="logo-box">7</span>
+            <span>Radio 7</span>
         </div>
+        <div class="nav-links">
+            <a href="#">Home</a>
+            <a href="#">Sounds</a>
+            <a href="#">Schedule</a>
+            <a href="#">Podcasts</a>
+            <a href="#">My Sounds</a>
+        </div>
+        <div style="color: var(--text-white); cursor: pointer;">
+            <i class="fas fa-search"></i>
+        </div>
+    </nav>
 
-        <div class="control-panel">
-            <div class="status-indicators">
-                <div class="status-card online">
-                    <h3>STREAM STATUS</h3>
-                    <div class="value">🟢 LIVE</div>
+    <!-- Hero Player -->
+    <div class="hero-player">
+        <div class="player-card">
+            <div class="album-art">
+                <div class="live-tag">
+                    <div class="live-indicator"></div> LIVE
                 </div>
-                <div class="status-card online">
-                    <h3>LISTENERS</h3>
-                    <div class="value" id="listenerCount">0</div>
-                </div>
-                <div class="status-card online">
-                    <h3>UPTIME</h3>
-                    <div class="value" id="uptime">00:00:00</div>
-                </div>
-                <div class="status-card online">
-                    <h3>BITRATE</h3>
-                    <div class="value">128 kbps</div>
-                </div>
+                <!-- Album Art Image -->
+                <img src="https://images.unsplash.com/photo-1470225620780-dba8ba36b745?q=80&w=600&auto-format&fit=crop" alt="Current Track" id="albumImage">
             </div>
-
-            <div class="stream-url-section">
-                <h2>📡 Stream URLs</h2>
-                <p>Share these URLs with your listeners:</p>
+            
+            <div class="player-info">
+                <div class="show-header" id="nowPlayingHeader">ON AIR NOW</div>
+                <div class="show-title" id="showTitle">Radio 7</div>
+                <div class="presenter" id="trackInfo">Initializing Broadcast...</div>
                 
-                <div class="url-box">
-                    <strong>HLS Stream (.m3u8):</strong>
-                    <code id="hlsUrl">https://radio7.example.com/stream/radio7.m3u8</code>
-                    <button class="copy-btn" onclick="copyToClipboard('hlsUrl')">Copy</button>
+                <div class="controls-area">
+                    <button class="play-btn" id="playBtn" onclick="togglePlay()">
+                        <i class="fas fa-play" id="playIcon"></i>
+                    </button>
+                    
+                    <div class="volume-control">
+                        <i class="fas fa-volume-up"></i>
+                        <input type="range" min="0" max="1" step="0.1" value="0.8" oninput="setVolume(this.value)">
+                    </div>
+
+                    <div class="visualizer" id="visualizer">
+                        <div class="bar" style="animation-duration: 0.4s"></div>
+                        <div class="bar" style="animation-duration: 0.6s"></div>
+                        <div class="bar" style="animation-duration: 0.3s"></div>
+                        <div class="bar" style="animation-duration: 0.5s"></div>
+                        <div class="bar" style="animation-duration: 0.7s"></div>
+                        <div class="bar" style="animation-duration: 0.4s"></div>
+                    </div>
                 </div>
                 
-                <div class="url-box">
-                    <strong>MP3 Stream:</strong>
-                    <code id="mp3Url">https://radio7.example.com/stream/radio7.mp3</code>
-                    <button class="copy-btn" onclick="copyToClipboard('mp3Url')">Copy</button>
-                </div>
-                
-                <div class="url-box">
-                    <strong>Direct Listen Link:</strong>
-                    <code id="directUrl">https://radio7.example.com/listen</code>
-                    <button class="copy-btn" onclick="copyToClipboard('directUrl')">Copy</button>
-                </div>
-
-                <h3 style="margin-top: 2rem;">📋 Embed Codes</h3>
-                <div class="embed-codes">
-                    <div class="url-box">
-                        <strong>HTML Audio Embed:</strong>
-                        <code id="htmlEmbed">&lt;audio controls src="https://radio7.example.com/stream/radio7.mp3"&gt;&lt;/audio&gt;</code>
-                        <button class="copy-btn" onclick="copyToClipboard('htmlEmbed')">Copy</button>
+                <div class="status-bar">
+                    <div>
+                        <i class="far fa-clock"></i> <span id="clockDisplay">00:00</span>
                     </div>
-                    <div class="url-box">
-                        <strong>Direct Link HTML:</strong>
-                        <code id="linkEmbed">&lt;a href="https://radio7.example.com/listen" target="_blank"&gt;Listen to Radio 7&lt;/a&gt;</code>
-                        <button class="copy-btn" onclick="copyToClipboard('linkEmbed')">Copy</button>
+                    <div id="debugStatus" style="color: var(--brand-color); font-weight:bold; font-size: 0.8rem;">
+                        OFFLINE
                     </div>
-                </div>
-            </div>
-
-            <div class="controls">
-                <button class="control-btn primary" onclick="startStream()">▶ Start Stream</button>
-                <button class="control-btn" onclick="stopStream()">⏹ Stop Stream</button>
-                <button class="control-btn" onclick="generateNewUrls()">🔄 New URLs</button>
-            </div>
-
-            <div class="listener-stats">
-                <h2>📊 Listener Statistics</h2>
-                <div class="stats-grid">
-                    <div class="stat-item">
-                        <div class="stat-value" id="totalListeners">0</div>
-                        <div class="stat-label">Current Listeners</div>
-                    </div>
-                    <div class="stat-item">
-                        <div class="stat-value" id="peakListeners">0</div>
-                        <div class="stat-label">Peak Today</div>
-                    </div>
-                    <div class="stat-item">
-                        <div class="stat-value" id="totalPlays">0</div>
-                        <div class="stat-label">Total Plays</div>
-                    </div>
-                    <div class="stat-item">
-                        <div class="stat-value" id="countries">12</div>
-                        <div class="stat-label">Countries</div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="platform-links">
-                <div class="platform-card">
-                    <div class="platform-icon">🌐</div>
-                    <h3>Website Widget</h3>
-                    <p>Embed on your website</p>
-                    <button class="copy-btn" style="position: static; margin-top: 1rem;" onclick="showWebsiteWidget()">Get Code</button>
-                </div>
-                <div class="platform-card">
-                    <div class="platform-icon">📱</div>
-                    <h3>Mobile Apps</h3>
-                    <p>Stream on mobile devices</p>
-                    <button class="copy-btn" style="position: static; margin-top: 1rem;" onclick="showMobileInfo()">View URLs</button>
-                </div>
-                <div class="platform-card">
-                    <div class="platform-icon">📻</div>
-                    <h3>Radio Players</h3>
-                    <p>Third-party radio apps</p>
-                    <button class="copy-btn" style="position: static; margin-top: 1rem;" onclick="showPlayerInfo()">View Info</button>
                 </div>
             </div>
         </div>
     </div>
 
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2024 Radio 7. Modeled after public service broadcasting.</p>
+        <div style="margin-top: 10px; display: flex; gap: 15px; justify-content: center;">
+            <a href="#" style="color: #888;">Privacy</a>
+            <a href="#" style="color: #888;">Cookies</a>
+            <a href="#" style="color: #888;">Help</a>
+        </div>
+    </footer>
+
+    <!-- Audio Element -->
+    <!-- 
+        NOTE: The 'crossorigin' attribute is important for loading audio from a different domain (like archive.org)
+        and allowing the audio context (visualizer) to process it, though browser security policies
+        might still block audio processing for cross-origin sources. The visualizer is decorative here.
+    -->
+    <audio id="audioPlayer" preload="auto" crossorigin="anonymous"></audio>
+
     <script>
-        // Generate random stream URLs
-        function generateStreamUrls() {
-            const randomId = Math.random().toString(36).substring(2, 8);
-            const baseUrl = `https://radio7.stream/live/${randomId}`;
-            
-            document.getElementById('hlsUrl').textContent = `${baseUrl}/stream.m3u8`;
-            document.getElementById('mp3Url').textContent = `${baseUrl}/stream.mp3`;
-            document.getElementById('directUrl').textContent = `https://radio7.com/listen/${randomId}`;
-            
-            // Update embed codes
-            document.getElementById('htmlEmbed').textContent = 
-                `<audio controls src="${baseUrl}/stream.mp3" style="width: 100%; max-width: 300px;"></audio>`;
-            document.getElementById('linkEmbed').textContent = 
-                `<a href="https://radio7.com/listen/${randomId}" target="_blank" style="color: #10b981; text-decoration: none; font-weight: bold;">🎵 Listen to Radio 7 Live</a>`;
-        }
+        const audio = document.getElementById('audioPlayer');
+        const playBtn = document.getElementById('playBtn');
+        const playIcon = document.getElementById('playIcon');
+        const visualizerBars = document.querySelectorAll('.bar');
+        const showTitleElement = document.getElementById('showTitle');
+        const trackInfoElement = document.getElementById('trackInfo');
+        const clockDisplay = document.getElementById('clockDisplay');
+        const debugStatus = document.getElementById('debugStatus');
+        const albumImage = document.getElementById('albumImage');
 
-        // Copy to clipboard function
-        function copyToClipboard(elementId) {
-            const element = document.getElementById(elementId);
-            const text = element.textContent;
-            
-            navigator.clipboard.writeText(text).then(() => {
-                const btn = element.nextElementSibling;
-                const originalText = btn.textContent;
-                btn.textContent = '✓ Copied!';
-                setTimeout(() => {
-                    btn.textContent = originalText;
-                }, 2000);
-            }).catch(err => {
-                console.error('Failed to copy: ', err);
-            });
-        }
+        // --- PLAYLIST CONFIGURATION ---
+        
+        // BASE_URL is kept for any relative paths, but we will primarily use full URLs.
+        const BASE_URL = './'; 
+        
+        // ---
+        // NEW PLAYLIST with streamable, uncopyrighted audio URLs.
+        // This object is where you would "fetch" new music. 
+        // For this demo, it's hardcoded to ensure it works.
+        // Audio sourced from Free Music Archive (freemusicarchive.org) and Internet Archive (archive.org)
+        // ---
+        //
+        // *** FIX 3 ***
+        // It appears the preview environment is blocking *some* cdn.pixabay.com audio files,
+        // specifically the "Just Relax" track. This is still a CORS-related issue,
+        // but it might be specific to that one file or a temporary CDN issue.
+        //
+        // To fix this, I am replacing the problematic audio file with a different one
+        // from Pixabay. I am also adding a `?v=123` query string to all audio URLs.
+        // This is a "cache buster" to ensure the browser fetches a fresh copy and
+        // doesn't use a failed, cached version of the audio file.
+        //
+        const playlistData = {
+          "playlist": [
+            {
+              "type": "voice",
+              "title": "Welcome to Radio 7",
+              "dj": "You're listening to the live loop.",
+              "file": "https://cdn.pixabay.com/audio/2022/11/17/audio_6ced510e19.mp3?v=123", // News Intro
+              "duration": 7,
+              "image": "https://images.unsplash.com/photo-1478737270239-2f63b8625881?q=80&w=600&auto-format=fit-crop"
+            },
+            {
+              "type": "song",
+              "title": "Stomps and Claps",
+              "dj": "AlexiAction",
+              "file": "https://cdn.pixabay.com/audio/2022/10/24/audio_9e30a4a1d2.mp3?v=123",
+              "duration": 130, // 2:10
+              "image": "https://images.unsplash.com/photo-1493225255756-d9584f8606e9?q=80&w=600&auto-format=fit-crop"
+            },
+            {
+              "type": "song",
+              "title": "Upbeat Corporate",
+              "dj": "MusicLFiles",
+              "file": "https://cdn.pixabay.com/audio/2022/08/03/audio_b8748d428a.mp3?v=123",
+              "duration": 133, // 2:13
+              "image": "https://images.unsplash.com/photo-1470225620780-dba8ba36b745?q=80&w=600&auto-format&fit-crop"
+            },
+            {
+              "type": "voice",
+              "title": "The AI Showcase",
+              "dj": "Coming up next: Music from the digital frontier.",
+              "file": "https://cdn.pixabay.com/audio/2022/11/17/audio_6ced510e19.mp3?v=123", // Re-using News Intro
+              "duration": 7,
+              "image": "https://images.unsplash.com/photo-1677756119517-756a188d_2d94?q=80&w=600&auto-format&fit-crop"
+            },
+            {
+              "type": "song",
+              "title": "Lofi Chill",
+              "dj": "BoDleasons",
+              // REPLACED this one just in case
+              "file": "https://cdn.pixabay.com/audio/2023/10/10/audio_201d4e941a.mp3?v=123",
+              "duration": 150, // 2:30
+              "image": "https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?q=80&w=600&auto-format=fit-crop"
+            },
+             {
+              "type": "song",
+              "title": "Relaxing Ambient",
+              "dj": "RelaxingTime",
+              // REPLACED the failing URL
+              "file": "https://cdn.pixabay.com/audio/2024/05/08/audio_2918cfa369.mp3?v=123",
+              "duration": 182, // 3:02
+              "image": "https://images.unsplash.com/photo-1506452243232-411b2383c5ce?q=80&w=600&auto-format&fit-crop"
+            }
+          ]
+        };
+        
+        let playlist = [];
+        let currentIndex = -1; // -1 indicates not started
+        let isPlaying = false;
+        let syncInterval;
 
-        // Stream control functions
-        function startStream() {
-            document.querySelectorAll('.status-card').forEach(card => {
-                card.classList.remove('offline');
-                card.classList.add('online');
-            });
-            
-            // Simulate listener growth
-            simulateListeners();
-            startUptimeCounter();
-            
-            alert('Stream started! Share the URLs above with your listeners.');
-        }
+        // --- INITIALIZATION ---
 
-        function stopStream() {
-            document.querySelectorAll('.status-card').forEach(card => {
-                card.classList.remove('online');
-                card.classList.add('offline');
-            });
-            
-            document.getElementById('listenerCount').textContent = '0';
-            clearInterval(window.listenerInterval);
-            clearInterval(window.uptimeInterval);
-            
-            alert('Stream stopped. No one can listen until you start it again.');
-        }
+        function initRadio() {
+            try {
+                // Load playlist from the embedded object
+                playlist = playlistData.playlist;
+                if (!playlist || playlist.length === 0) {
+                    throw new Error("Playlist is empty or invalid.");
+                }
 
-        function generateNewUrls() {
-            if (confirm('Generate new stream URLs? Old URLs will stop working.')) {
-                generateStreamUrls();
-                alert('New URLs generated! Update any places where you shared the old URLs.');
+                debugStatus.textContent = "READY";
+                console.log("Playlist loaded:", playlist.length, "tracks");
+                
+                // Perform initial sync without playing
+                const state = calculateLiveState();
+                updateMetadata(playlist[state.index]);
+                currentIndex = state.index;
+                
+            } catch (error) {
+                console.error("Failed to load playlist:", error);
+                trackInfoElement.textContent = "Error loading broadcast data.";
+                debugStatus.textContent = "DATA ERROR";
+                debugStatus.style.color = "red";
             }
         }
 
-        // Simulate listener statistics
-        function simulateListeners() {
-            let listeners = 0;
-            let peak = 0;
-            let totalPlays = 0;
+        // --- ROBUST LIVE SYNC ENGINE ---
+
+        function calculateLiveState() {
+            if (!playlist || playlist.length === 0) return { index: 0, seekTime: 0, remaining: 0 };
+
+            // 1. Calculate Total Cycle Duration
+            const totalLoopDuration = playlist.reduce((acc, track) => acc + (track.duration || 180), 0);
             
-            window.listenerInterval = setInterval(() => {
-                // Random listener fluctuation
-                const change = Math.random() > 0.6 ? 1 : -1;
-                listeners = Math.max(0, listeners + change);
-                peak = Math.max(peak, listeners);
-                totalPlays += listeners;
-                
-                document.getElementById('listenerCount').textContent = listeners;
-                document.getElementById('peakListeners').textContent = peak;
-                document.getElementById('totalListeners').textContent = listeners;
-                document.getElementById('totalPlays').textContent = totalPlays.toLocaleString();
-            }, 3000);
-        }
-
-        // Uptime counter
-        function startUptimeCounter() {
-            let seconds = 0;
-            window.uptimeInterval = setInterval(() => {
-                seconds++;
-                const hours = Math.floor(seconds / 3600);
-                const minutes = Math.floor((seconds % 3600) / 60);
-                const secs = seconds % 60;
-                
-                document.getElementById('uptime').textContent = 
-                    `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
-            }, 1000);
-        }
-
-        // Platform-specific functions
-        function showWebsiteWidget() {
-            const widgetCode = `
-<div id="radio7-widget">
-    <style>
-        .radio7-player {
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            color: white;
-            padding: 20px;
-            border-radius: 15px;
-            text-align: center;
-            max-width: 300px;
-            margin: 0 auto;
-        }
-        .radio7-player button {
-            background: #10b981;
-            border: none;
-            color: white;
-            padding: 10px 20px;
-            border-radius: 25px;
-            cursor: pointer;
-            margin: 10px 0;
-        }
-    </style>
-    <div class="radio7-player">
-        <h3>🎵 Radio 7</h3>
-        <p>Live Streaming</p>
-        <button onclick="window.open('${document.getElementById('directUrl').textContent}', '_blank')">
-            Listen Now
-        </button>
-    </div>
-</div>`;
+            // 2. Get Current Seconds in Cycle (Unix Epoch based)
+            const now = Date.now() / 1000; 
+            const currentLoopTime = now % totalLoopDuration;
             
-            alert('Add this code to your website HTML:\n\n' + widgetCode);
+            // 3. Determine specific track and offset
+            let timeCursor = 0;
+            for (let i = 0; i < playlist.length; i++) {
+                const track = playlist[i];
+                const dur = track.duration || 180; // Fallback duration if missing
+                
+                // Check if current time falls within this track's window
+                if (currentLoopTime >= timeCursor && currentLoopTime < (timeCursor + dur)) {
+                    return {
+                        index: i,
+                        seekTime: currentLoopTime - timeCursor,
+                        remaining: (timeCursor + dur) - currentLoopTime
+                    };
+                }
+                timeCursor += dur;
+            }
+            // Fallback in case of calculation error
+            return { index: 0, seekTime: 0, remaining: 0 };
         }
 
-        function showMobileInfo() {
-            const info = `
-Mobile Streaming URLs:
+        async function syncPlayer(forcePlay = false) {
+            if (playlist.length === 0) return;
 
-HLS (iOS/Android): 
-${document.getElementById('hlsUrl').textContent}
+            const state = calculateLiveState();
+            const track = playlist[state.index];
 
-MP3 (Universal):
-${document.getElementById('mp3Url').textContent}
+            // Update UI Metadata (Always update this)
+            updateMetadata(track);
 
-These URLs work in most mobile media players and apps.`;
-            alert(info);
+            // Handle Track Change
+            if (currentIndex !== state.index || forcePlay) {
+                console.log(`[Sync] Changing track to: ${track.title}`);
+                currentIndex = state.index;
+                
+                // Construct URL
+                // MODIFICATION: Check if file is a full URL or relative path
+                let trackUrl;
+                if (track.file.startsWith('http')) {
+                    trackUrl = track.file; // It's already a full URL
+                } else {
+                    const cleanPath = track.file.startsWith('/') ? track.file.substring(1) : track.file;
+                    trackUrl = BASE_URL + cleanPath;
+                }
+
+                // Only set src if it's different to avoid re-loading
+                if (audio.src !== trackUrl) {
+                    audio.src = trackUrl;
+                }
+                
+                // If we are playing, command it to play.
+                // The 'loadedmetadata' event will handle the seeking.
+                if (isPlaying) {
+                    try {
+                        // We must wait for the audio to be ready to play
+                        // 'loadedmetadata' listener will handle seeking
+                        await audio.play();
+                    } catch (e) {
+                        console.warn("Autoplay was blocked. User must interact.", e.message);
+                        // If blocked, pause the UI state
+                        pauseUI();
+                    }
+                }
+            }
         }
 
-        function showPlayerInfo() {
-            const info = `
-For radio player apps like VLC, Winamp, etc.:
-
-Stream URL: 
-${document.getElementById('mp3Url').textContent}
-
-For advanced players supporting HLS:
-${document.getElementById('hlsUrl').textContent}
-
-Most apps will automatically detect the stream type.`;
-            alert(info);
-        }
-
-        // Initialize
-        document.addEventListener('DOMContentLoaded', function() {
-            generateStreamUrls();
-            // Start with stream running
-            startStream();
+        // Triggered when the audio file actually loads its duration info
+        audio.addEventListener('loadedmetadata', () => {
+            if (isPlaying) {
+                const state = calculateLiveState();
+                
+                // Only seek if we are off by more than 2 seconds to prevent glitches
+                // And ensure we don't seek past the end
+                if (audio.duration && Math.abs(audio.currentTime - state.seekTime) > 2) {
+                    if (state.seekTime < audio.duration) {
+                        console.log(`[Sync] Seeking to ${state.seekTime.toFixed(2)}s`);
+                        audio.currentTime = state.seekTime;
+                    } else {
+                         console.log(`[Sync] Seek time (${state.seekTime}) is past duration (${audio.duration}). Playing from start.`);
+                         audio.currentTime = 0;
+                    }
+                }
+                // Ensure it's playing if it's supposed to be
+                audio.play().catch(e => console.warn("Play command failed in loadedmetadata"));
+            }
         });
+
+        // Fail-safe: If track ends, re-run sync immediately to jump to next
+        audio.addEventListener('ended', () => {
+            console.log("[Sync] Track ended, syncing to next.");
+            syncPlayer(true); // Force sync to next track
+        });
+        
+        // Fail-safe: If error (e.g., file missing, network error), log and try to recover
+        audio.addEventListener('error', (e) => {
+            // Improved error logging
+            let errorMsg = "Audio Load Error:";
+            if (audio.error) {
+                switch (audio.error.code) {
+                    case 1: // MEDIA_ERR_ABORTED
+                        errorMsg += " Fetch aborted by user.";
+                        break;
+                    case 2: // MEDIA_ERR_NETWORK
+                        errorMsg += " Network error. Check connection or file URL.";
+                        break;
+                    case 3: // MEDIA_ERR_DECODE
+                        errorMsg += " Error decoding audio file.";
+                        break;
+                    case 4: // MEDIA_ERR_SRC_NOT_SUPPORTED
+                        errorMsg += " Audio source not supported or URL is incorrect/CORS issue.";
+                        break;
+                    default:
+                        errorMsg += " An unknown error occurred.";
+                }
+                console.error(errorMsg, `URL: ${audio.src}`, audio.error || e);
+            } else {
+                console.error("Audio Load Error (unknown):", e);
+            }
+
+            debugStatus.innerText = "STREAM ERROR - RETRYING";
+            // Wait a moment, then try to sync again
+            setTimeout(() => {
+                if (isPlaying) {
+                    syncPlayer(true);
+                }
+            }, 3000);
+        });
+
+        function updateMetadata(track) {
+            if (!track) return;
+            showTitleElement.textContent = track.title;
+            trackInfoElement.textContent = track.dj;
+            debugStatus.textContent = isPlaying ? "• LIVE BROADCAST" : "OFFLINE";
+            debugStatus.style.color = isPlaying ? "var(--brand-color)" : "#888";
+
+            // Visual updates
+            if(track.image) {
+                albumImage.src = track.image;
+            } else if(track.type === 'voice') {
+                albumImage.src = "https://images.unsplash.com/photo-1478737270239-2f63b8625881?q=80&w=600&auto-format=fit-crop"; 
+            } else {
+                albumImage.src = "https://images.unsplash.com/photo-1493225255756-d9584f8606e9?q=80&w=600&auto-format&fit-crop";
+            }
+            
+            if(track.type === 'voice') {
+                document.getElementById('nowPlayingHeader').innerText = "STATION ANNOUNCEMENT";
+            } else if (track.dj.includes("AI Artist")) {
+                document.getElementById('nowPlayingHeader').innerText = "AI SHOWCASE";
+            } else {
+                document.getElementById('nowPlayingHeader').innerText = "ON AIR NOW";
+            }
+        }
+
+        // --- CONTROLS ---
+
+        function playUI() {
+            isPlaying = true;
+            playIcon.classList.remove('fa-play');
+            playIcon.classList.add('fa-pause');
+            startVisualizer();
+            debugStatus.textContent = "SYNCING...";
+        }
+
+        function pauseUI() {
+            isPlaying = false;
+            audio.pause();
+            playIcon.classList.remove('fa-pause');
+            playIcon.classList.add('fa-play');
+            stopVisualizer();
+            debugStatus.textContent = "PAUSED";
+            debugStatus.style.color = "#888";
+            clearInterval(syncInterval);
+            syncInterval = null;
+        }
+
+        function togglePlay() {
+            if (playlist.length === 0) {
+                // Do not use alert()
+                console.warn("Playlist loading, please wait...");
+                trackInfoElement.textContent = "Playlist is not ready.";
+                return;
+            }
+
+            if (isPlaying) {
+                // Stop
+                pauseUI();
+            } else {
+                // Start
+                playUI();
+                
+                // 1. Calculate where we should be and start playing
+                syncPlayer(true).then(() => {
+                    // 2. Start periodic sync check (every 5 seconds is plenty)
+                    if (!syncInterval) {
+                        syncInterval = setInterval(() => {
+                            if(isPlaying) {
+                                const state = calculateLiveState();
+                                if (state.index !== currentIndex) {
+                                    // Track has changed, force a sync
+                                    syncPlayer(true);
+                                }
+                                else if (audio.duration && Math.abs(audio.currentTime - state.seekTime) > 4) {
+                                    // We are drifting, re-seek
+                                    console.log("[Sync] Resyncing time drift...");
+                                    if(state.seekTime < audio.duration) {
+                                        audio.currentTime = state.seekTime;
+                                    }
+                                }
+                            }
+                        }, 5000);
+                    }
+                });
+            }
+        }
+
+        function setVolume(val) {
+            audio.volume = val;
+        }
+
+        function startVisualizer() {
+            visualizerBars.forEach(bar => bar.style.animationPlayState = 'running');
+        }
+
+        function stopVisualizer() {
+            visualizerBars.forEach(bar => bar.style.animationPlayState = 'paused');
+        }
+
+        // Clock Update
+        setInterval(() => {
+            const now = new Date();
+            clockDisplay.textContent = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+            
+            // If not playing, we still want to show correct metadata for "What's on now"
+            if (!isPlaying && playlist.length > 0) {
+                const state = calculateLiveState();
+                if (state.index !== currentIndex) {
+                    updateMetadata(playlist[state.index]);
+                    currentIndex = state.index; 
+                }
+            }
+        }, 1000);
+
+        // Start
+        initRadio();
+
     </script>
 </body>
 </html>
